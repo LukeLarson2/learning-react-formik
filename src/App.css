@@ -13,22 +13,52 @@ input[type="text"],
 input[type="email"],
 textarea {
   display: block;
-  width: 400px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
-  /* margin-bottom: 20px; */
+  width: 400px;
+  opacity: 75%;
 }
 
 .form-control {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .error {
   color: red;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.Field {
+  margin-right: 10px;
+}
+
+.add {
+  position: absolute;
+  right: 0;
+  margin-right: 5px;
+}
+
+.remove {
+  position: absolute;
+  right: 0;
+  margin-right: 22px;
 }
