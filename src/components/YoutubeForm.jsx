@@ -32,9 +32,19 @@ const initialValues = {
   phNumbers: [""],
 };
 
-const onSubmit = (values) => {
-  console.log(values);
+const onSubmit = (values, onSubmitProps) => {
+  console.log('Form data',values)
+  console.log('Submit Props', onSubmitProps)
+  onSubmitProps.setSubmitting('false')
 };
+
+const validateComments = value => {
+	let error
+	if(!value) {
+		error = 'Required'
+	}
+	return error
+}
 
 const YoutubeForm = () => {
   return (
@@ -42,8 +52,11 @@ const YoutubeForm = () => {
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
+      validateOnChange={false}
     >
-      <Form>
+      {formik => {
+          return (
+            <Form>
         <div className="form-control">
           <label htmlFor="name">
             Name<span className="error">*</span>
@@ -89,12 +102,13 @@ const YoutubeForm = () => {
         <div className="form-control">
           <label htmlFor="comments">Comments</label>
           <Field
-            as="textarea"
-            id="comments"
-            name="comments"
-            className="field-form"
-            placeholder="Leave a comment..."
+	          as='textarea'
+	          id='comments'
+	          name='comments'
+            placeholder='Leave a comment...'
+	          validate={validateComments}
           />
+          <ErrorMessage name='comments' component={TextError} />
         </div>
 
         <div className="form-control">
@@ -196,8 +210,20 @@ const YoutubeForm = () => {
             }}
           </FieldArray>
         </div>
-        <button type="submit">Submit</button>
+        <button type="button" onClick={() => formik.setFieldTouched('comments')}>Visit Comments</button>
+        <button type="button" onClick={() => formik.setTouched({
+          name: true,
+          email:true,
+          channel: true,
+          comments:true
+        })}>Visit Fields</button>
+        <button type="button" onClick={() => formik.validateField('comments')}>Validate Comments</button>
+        <button type="button" onClick={() => formik.validateForm()}>Validate All</button>
+        <button type="submit" disabled={formik.isSubmitting || !formik.isValid}>Submit</button>
       </Form>
+          )
+        }
+      }
     </Formik>
   );
 };
