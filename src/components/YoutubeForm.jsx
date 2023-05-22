@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Formik,
   Form,
@@ -32,10 +32,25 @@ const initialValues = {
   phNumbers: [""],
 };
 
+const savedValues = {
+  name: "Lucas",
+  email: "l@example.com",
+  channel: "asd",
+  comments: "welcome to formik",
+  address: "123 fake street",
+  social: {
+    facebook: "",
+    twitter: "",
+  },
+  phoneNumbers: ["", ""],
+  phNumbers: [""],
+};
+
 const onSubmit = (values, onSubmitProps) => {
   console.log('Form data',values)
   console.log('Submit Props', onSubmitProps)
-  onSubmitProps.setSubmitting('false')
+  onSubmitProps.setSubmitting(false)
+  onSubmitProps.resetForm()
 };
 
 const validateComments = value => {
@@ -47,12 +62,15 @@ const validateComments = value => {
 }
 
 const YoutubeForm = () => {
+  const [formValues, setFormValues] = useState(null)
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formValues || initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       validateOnChange={false}
+      enableReinitialize
     >
       {formik => {
           return (
@@ -210,7 +228,7 @@ const YoutubeForm = () => {
             }}
           </FieldArray>
         </div>
-        <button type="button" onClick={() => formik.setFieldTouched('comments')}>Visit Comments</button>
+        {/* <button type="button" onClick={() => formik.setFieldTouched('comments')}>Visit Comments</button>
         <button type="button" onClick={() => formik.setTouched({
           name: true,
           email:true,
@@ -218,7 +236,9 @@ const YoutubeForm = () => {
           comments:true
         })}>Visit Fields</button>
         <button type="button" onClick={() => formik.validateField('comments')}>Validate Comments</button>
-        <button type="button" onClick={() => formik.validateForm()}>Validate All</button>
+        <button type="button" onClick={() => formik.validateForm()}>Validate All</button> */}
+        <button type="button" onClick={() => setFormValues(savedValues)}>Load Saved Data</button>
+        <button type="reset">Reset</button>
         <button type="submit" disabled={formik.isSubmitting || !formik.isValid}>Submit</button>
       </Form>
           )
